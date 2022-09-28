@@ -1,14 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
-  faCircle,
-  faCircleH,
   faCircleHalfStroke,
   faDumpster,
-  faEdit,
-  faRing,
 } from "@fortawesome/free-solid-svg-icons";
 import TodoItemStyled from "../wrappers/TodoItem";
+
 export default function TodoItem(props) {
   return (
     <TodoItemStyled>
