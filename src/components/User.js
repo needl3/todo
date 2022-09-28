@@ -1,5 +1,6 @@
 import { React, useState } from "react";
 import Login from "./Login";
+import UserStyled from "../wrappers/User"
 
 export default function User(props) {
   const [userData, setUserData] = useState({
@@ -10,27 +11,27 @@ export default function User(props) {
   const handleLogin = (token) => {
     if (token !== undefined){
         setUserData({
-            status: "Loggen In",
+            status: "Logged In",
             accessToken: token,
             isDialogActive: false 
         })
     }
   };
   return (
-    <>
+    <UserStyled>
       <div id='login-status-container'>
-        <button onClick={() => {setUserData({
+        <button className={userData.status === "Logged In" ? "logged-in" : "not-logged-in"} onClick={() => {setUserData({
             ...userData,
             ...{isDialogActive: !userData.isDialogActive}
         })}}>
           {userData.status}
         </button>
-      </div>
       {userData.isDialogActive && (
         <div id='dialog'>
           <Login setData={handleLogin} />
         </div>
       )}
-    </>
+      </div>
+    </UserStyled>
   );
 }

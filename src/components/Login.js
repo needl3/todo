@@ -1,5 +1,6 @@
 import { useState } from "react";
 import urls from "../shared/urls";
+import LoginStyled from "../wrappers/Login";
 
 export default function Login(props) {
   const [loginData, setData] = useState({
@@ -18,27 +19,27 @@ export default function Login(props) {
   });
 
   const handleSubmit = async () => {
-    await fetch(urls.base, {
-      mode: "POST",
+    await fetch(urls.base + urls.login, {
+      method: "POST",
+      mode: "no-cors",
       body: JSON.stringify({
         loginData,
       }),
     })
       .then((r) => {
-        props.setData(true, r);
+        if (r.ok) props.setData(true, r.body.token);
       })
       .catch((r) => {
-        console.log("Invalid credentials");
+        setData({
+          ...loginData,
+          ...{
+            loginTries: {
+              ...loginData.loginTries,
+              ...{ triesRemaining: loginData.loginTries.triesRemaining - 1 },
+            },
+          },
+        });
       });
-    setData({
-      ...loginData,
-      ...{
-        loginTries: {
-          ...loginData.loginTries,
-          ...{ triesRemaining: loginData.loginTries.triesRemaining - 1 },
-        },
-      },
-    });
   };
 
   const handleChange = (v, field) => {
@@ -50,37 +51,31 @@ export default function Login(props) {
   };
 
   return (
-    <div id='login-dialog'>
-      <div id='email'>
-        <label for='email'>Email: </label>
-        <input
-          type='text'
-          name='email'
-          placeholder='email'
-          onChange={(v) => handleChange(v, "email")}
-        ></input>
+    <LoginStyled>
+      <div id='login-dialog'>
+        <div id='wrong-status'>
+          {loginData.loginTries.triesRemaining < 4 ? "Wrong Credentials" : ""}
+        </div>
+        <div id='email'>
+          <input
+            type='text'
+            name='email'
+            placeholder='email'
+            onChange={(v) => handleChange(v, "email")}
+          ></input>
+        </div>
+        <div id='pass'>
+          <input
+            type='password'
+            name='pass'
+            placeholder='password'
+            onChange={(v) => handleChange(v, "pass")}
+          ></input>
+        </div>
+        <button onClick={handleSubmit}>
+          {loginData.loginTries.message.at(loginData.loginTries.triesRemaining)}
+        </button>
       </div>
-      <div id='pass'>
-        <label for='pass'>Password: </label>
-        <input
-          type='password'
-          name='pass'
-          placeholder='password'
-          onChange={(v) => handleChange(v, "pass")}
-        ></input>
-      </div>
-      <button
-        onClick={handleSubmit}
-        style={{
-          backgroundColor: `rgb(
-            ${100 + 20* 1 / (loginData.loginTries.triesRemaining + 1)},
-            ${100 - 20 * (1 - 1 / (loginData.loginTries.triesRemaining + 1))},
-            100
-          )`,
-        }}
-      >
-        {loginData.loginTries.message.at(loginData.loginTries.triesRemaining)}
-      </button>
-    </div>
+    </LoginStyled>
   );
 }

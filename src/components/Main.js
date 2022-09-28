@@ -23,7 +23,6 @@ export default function Main(props) {
       }
     } else newTodo[id].title = value;
     updateTodos(newTodo);
-    console.log(newTodo);
   };
   return (
     <MainStyled>
