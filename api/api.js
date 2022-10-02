@@ -1,10 +1,7 @@
-const router = require("express").Router()
+router = require("express").Router();
 
-router.post("/login", (req, res) => {
-        console.log(req.body)
-        return res.json({
-            token: "hereisthetoken"
-        })
-    })
+router.post("/login", require("./routes/Login"));
+router.post("/register", require("./routes/Register"));
+router.get("/verifyMail*", require("./routes/VerifyMail"));
 
-export default router
+module.exports = router;

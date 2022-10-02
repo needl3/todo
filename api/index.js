@@ -1,5 +1,8 @@
 const express = require('express')
 const cors = require("cors")
+const path = require("path")
+
+require("dotenv").config({path: path.resolve(__dirname, "./.env")})
 
 app = express()
 
@@ -13,6 +16,6 @@ app.use(express.json())
 
 app.use("/api", require("./api.js"))
 
-server = app.listen(8000, ()=>{
+server = app.listen(process.env.PORT, ()=>{
     console.log("Listening on ", server.address().address, server.address().port)
 })
