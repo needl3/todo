@@ -1,11 +1,12 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendVerifyMailEmail = require("../utils/Mail");
+
 const Register = async (req, res) => {
   try {
     const hash = await bcrypt.hash(req.body.password, 10);
     const token = await jwt.sign(
-      { email: req.body.email, token: hash },
+      { name: req.body.name, email: req.body.email, token: hash },
       process.env.APP_SECRET,
       { expiresIn: 300 }
     );

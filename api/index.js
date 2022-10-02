@@ -4,6 +4,8 @@ const path = require("path")
 
 require("dotenv").config({path: path.resolve(__dirname, "./.env")})
 
+require("./configs/Db").connect()
+
 app = express()
 
 app.use(cors({origin: ["http://localhost:3000"]}))
