@@ -7,7 +7,7 @@ module.exports = function AddTodo(req, res) {
     description: req.body.todo.description,
     completed: req.body.todo.completed,
     priority: req.body.todo.priority,
-    _id: Date.now(),
+    _id: req.body.todo.timeStamp || Date.now(),
   };
   db.updateOne(
     { email: req.userdata.email },

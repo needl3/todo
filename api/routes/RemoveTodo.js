@@ -1,8 +1,6 @@
 const { database: db } = require("../configs/Db");
 
 module.exports = function RemoveTodo(req, res) {
-  // Manually create a valid entry
-  // To make sure no funky business goes on todo entry
   db.updateOne(
     { email: req.userdata.email },
     {

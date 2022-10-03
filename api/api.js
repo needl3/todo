@@ -7,5 +7,6 @@ router.get("/verifyMail*", require("./routes/VerifyMail"));
 router.post("/logout", Authenticate, require("./routes/Logout"));
 router.post("/add", Authenticate, require("./routes/AddTodo"));
 router.delete("/remove", Authenticate, require("./routes/RemoveTodo"));
+router.patch("/update", Authenticate, require("./routes/UpdateTodo"));
 
 module.exports = router;
