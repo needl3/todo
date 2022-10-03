@@ -7,14 +7,18 @@ module.exports = function AddTodo(req, res) {
     description: req.body.todo.description,
     completed: req.body.todo.completed,
     priority: req.body.todo.priority,
+    _id: Date.now(),
   };
-  db.updateOne({email: req.userdata.email}, {
-    $push: {
-      todo: record,
-    },
-  })
+  db.updateOne(
+    { email: req.userdata.email },
+    {
+      $push: {
+        todo: record,
+      },
+    }
+  )
     .then((e) => {
-      if (e.matchedCount === 0) throw(e);
+      if (e.modifiedCount=== 0) throw e;
       return res.json({ success: true, message: "Added" });
     })
     .catch((e) => {
