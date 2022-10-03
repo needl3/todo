@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const {
   createRefreshToken,
-  createAccessToken,
 } = require("../utils/createToken");
 module.exports.Authenticate = (req, res, next) => {
   try {
