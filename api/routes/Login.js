@@ -18,25 +18,31 @@ const Login = async (req, res) => {
           if (err) {
             const newAccessToken = user.refreshToken;
             const newRefreshToken = await createRefreshToken(payload);
-            await db.updateOne(user, {
+            db.updateOne(user, {
               $set: {
                 accessToken: newAccessToken,
                 refreshToken: newRefreshToken,
               },
-            });
-            return res.json({ success: true, accessToken: newAccessToken });
+            }).then(e=>{
+              if(e.modifiedCount === 0) return res.status(500).json({success: false, message: "Cannot login"})
+              return res.json({ success: true, accessToken: newAccessToken });
+            })
           } else {
             return res.json({ success: true, accessToken: user.accessToken });
           }
         }
       );
     } else {
-      await db.updateOne(user, {
+      const token = await createAccessToken(payload);
+      db.updateOne(user, {
         $set: {
-          accessToken: await createAccessToken(payload),
+          accessToken: token, 
           refreshToken: await createRefreshToken(payload),
         },
-      });
+      }).then(e=>{
+        if(e.modifiedCount === 0) return res.status(500).json({success: false, message: "Cannot login"})
+        else res.json({success: true, accessToken: token})
+      })
     }
   } else {
     return res

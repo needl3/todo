@@ -4,5 +4,6 @@ router.post("/login", require("./routes/Login"));
 router.post("/register", require("./routes/Register"));
 router.get("/verifyMail*", require("./routes/VerifyMail"));
 router.post("/logout", Authenticate, require("./routes/Logout"));
+router.post("/add", Authenticate, require("./routes/AddTodo"));
 
 module.exports = router;
