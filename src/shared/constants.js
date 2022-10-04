@@ -2,6 +2,7 @@ const modes = {
   LOGIN: "login",
   REGISTER: "register",
   DORMANT: "dormant",
+  LOGOUT: "logout"
 };
 
 const status = {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import urls from "../shared/urls";
+import { modes } from "../shared/constants";
 import LoginStyled from "../wrappers/Login";
 
 export default function Login(props) {
@@ -8,28 +9,33 @@ export default function Login(props) {
     password: undefined,
     loginTries: {
       message: [
+        "Locked",
         "The End Try",
         "Last Try for sure",
         "Last Try",
         "Try Again",
         "Login",
       ],
-      triesRemaining: 4,
+      triesRemaining: 5,
     },
   });
 
-  const handleSubmit = async () => {
-    await fetch(urls.base + urls.login, {
+  const handleSubmit = () => {
+    fetch(urls.base + urls.login, {
       method: "POST",
-      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        loginData,
+        email: loginData.email,
+        password: loginData.password
       }),
     })
-      .then((r) => {
-        if (r.ok) props.setData(true, r.body.token);
+      .then(async (r) => {
+        if (r.status !== 200) throw await r.json();
+        const response = await r.json();
+        props.setData(response.accessToken);
       })
       .catch((r) => {
+        console.log(r);
         setData({
           ...loginData,
           ...{
@@ -54,7 +60,7 @@ export default function Login(props) {
     <LoginStyled>
       <div id='login-dialog'>
         <div id='wrong-status'>
-          {loginData.loginTries.triesRemaining < 4 ? "Wrong Credentials" : ""}
+          {loginData.loginTries.triesRemaining < 5 ? "Wrong Credentials" : ""}
         </div>
         <div id='email'>
           <input
@@ -72,9 +78,18 @@ export default function Login(props) {
             onChange={(v) => handleChange(v, "pass")}
           ></input>
         </div>
-        <button onClick={handleSubmit}>
+        <button
+          onClick={
+            loginData.loginTries.triesRemaining ? handleSubmit : () => {}
+          }
+        >
           {loginData.loginTries.message.at(loginData.loginTries.triesRemaining)}
         </button>
+        <div id='toggler'>
+          <button onClick={() => props.toggleAuth(modes.REGISTER)}>
+            Register
+          </button>
+        </div>
       </div>
     </LoginStyled>
   );

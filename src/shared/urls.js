@@ -1,6 +1,7 @@
 const urls = {
     base: "http://127.0.0.1:8000/",
     login: "api/login/",
-    register: "api/register/"
+    register: "api/register/",
+    user: "api/user/"
 }
 export default urls

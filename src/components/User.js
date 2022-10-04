@@ -1,5 +1,6 @@
 import { React, useState } from "react";
 import Login from "./Login";
+import Logout from "./Logout";
 import Register from "./Register";
 import UserStyled from "../wrappers/User";
 import { modes } from "../shared/constants";
@@ -17,6 +18,7 @@ export default function User(props) {
         accessToken: token,
         dialogMode: modes.DORMANT,
       });
+      props.setToken(token);
     }
   };
   const toggleAuth = (newMode) => {
@@ -35,7 +37,9 @@ export default function User(props) {
               ...{
                 dialogMode:
                   userData.dialogMode === modes.DORMANT
-                    ? modes.LOGIN
+                    ? userData.status === "Logged In"
+                      ? modes.LOGOUT
+                      : modes.LOGIN
                     : modes.DORMANT,
               },
             });
@@ -50,7 +54,22 @@ export default function User(props) {
         )}
         {userData.dialogMode === modes.REGISTER && (
           <div id='dialog'>
-            <Register toggleAuth={(v) => toggleAuth(v)}/>
+            <Register toggleAuth={(v) => toggleAuth(v)} />
+          </div>
+        )}
+        {userData.dialogMode === modes.LOGOUT && (
+          <div id='dialog'>
+            <Logout
+              token={userData.accessToken}
+              logout={() => {
+                props.setToken(undefined);
+                setUserData({
+                  status: "Not Logged In",
+                  accessToken: undefined,
+                  dialogMode: modes.DORMANT,
+                });
+              }}
+            />
           </div>
         )}
       </div>
