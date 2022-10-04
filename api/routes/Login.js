@@ -8,8 +8,8 @@ const {
 
 const Login = async (req, res) => {
   const user = await db.findOne({ email: req.body.email });
-  const payload = { email: user.email };
-  if (await bcrypt.compare(req.body.password, user.password)) {
+  if (user !== null && await bcrypt.compare(req.body.password, user.password)) {
+    const payload = { email: user.email };
     if (user.accessToken !== undefined && user.accessToken !== {}) {
       jwt.verify(
         user.accessToken,
