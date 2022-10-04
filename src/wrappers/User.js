@@ -10,13 +10,14 @@ const UserStyled = styled.div`
     background-color: inherit;
   }
   #login-status-container > button{
-    margin-right: 5%;
+    margin-right: 7%;
     width: fit-content;
     padding: .4rem 1rem;
   }
   #login-status-container > button:hover{
     color: bisque;
     border-color: bisque;
+    cursor: pointer;
   }
   .logged-in{
     color: #00AAAA;

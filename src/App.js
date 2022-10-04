@@ -1,12 +1,18 @@
-import Main from "./components/Main"
-import "./App.css"
-import User from "./components/User"
+import Main from "./components/Main";
+import "./App.css";
+import User from "./components/User";
+import { useState } from "react";
 
-export default function App(){
+export default function App() {
+  const [accessToken, setLoginStat] = useState(undefined);
   return (
     <>
-      <User/>
-      <Main/>
+      <User
+        setToken={(token) => {
+          setLoginStat(token);
+        }}
+      />
+      <Main accessToken={accessToken} />
     </>
-  )
+  );
 }

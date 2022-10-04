@@ -23,6 +23,7 @@ const MainStyled = styled.div`
     border-color: aquamarine;
     color: aquamarine;
     transition: 0.3s;
+    cursor: pointer;
   }
   #todo-created {
     display: flex;
