@@ -8,8 +8,8 @@ router.get("/user", Authenticate, require("./routes/GetUser"));
 router.post("/logout", Authenticate, require("./routes/Logout"));
 router.post("/todo", Authenticate, require("./routes/AddTodo"));
 router.get("/todo", Authenticate, require("./routes/GetTodo"));
-router.delete("/remove", Authenticate, require("./routes/RemoveTodo"));
-router.patch("/update", Authenticate, require("./routes/UpdateTodo"));
+router.delete("/todo", Authenticate, require("./routes/RemoveTodo"));
+router.patch("/todo", Authenticate, require("./routes/UpdateTodo"));
 router.delete("/delete", Authenticate, require("./routes/Delete"));
 
 module.exports = router;

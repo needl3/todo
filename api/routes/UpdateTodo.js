@@ -4,11 +4,10 @@ module.exports = function UpdateTodo(req, res) {
   // Manually create a valid entry
   // To make sure no funky business goes on todo entry
   const record = {
-    title: req.body.todo.title,
-    description: req.body.todo.description,
-    completed: req.body.todo.completed,
-    priority: req.body.todo.priority,
-    _id: req.body.todo.timeStamp,
+    title: req.body.title,
+    description: req.body.description,
+    checked: req.body.checked,
+    id: req.body.id,
   };
   //
   // There is probably more effecient method to do this
@@ -18,7 +17,7 @@ module.exports = function UpdateTodo(req, res) {
   db.updateOne(
     {
       email: req.userdata.email,
-      "todo._id": req.body.todo.timeStamp,
+      "todo.id": record.id,
     },
     {
       $set: { "todo.$": record },

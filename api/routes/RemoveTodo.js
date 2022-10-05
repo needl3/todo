@@ -5,7 +5,7 @@ module.exports = function RemoveTodo(req, res) {
     { email: req.userdata.email },
     {
       $pull: {
-        todo: { _id: { $eq: req.body.arrayId } },
+        todo: { id: { $eq: req.body.id} },
       },
     }
   )

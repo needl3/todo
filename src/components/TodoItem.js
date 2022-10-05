@@ -5,20 +5,27 @@ import {
   faDumpster,
 } from "@fortawesome/free-solid-svg-icons";
 import TodoItemStyled from "../wrappers/TodoItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Edit from "./Edit";
+import { updateCall } from "../shared/calls";
 
-export default function TodoItem({ updateTodo, item }) {
-  const [localState, setState] = useState({
-    ...item,
-    ...{ editActive: false},
-  });
+export default function TodoItem({ updateTodo, item, token }) {
+  const [localState, setState] = useState(item);
+  const [editActive, setEdit] = useState(undefined);
+  useEffect(() => {
+    // This is clause executes only once at first to ignore firing of effect for the first time
+    if (editActive === undefined) setEdit(false);
+    else {
+      updateCall(localState, token);
+    }
+  }, [JSON.stringify(localState)]);
   return (
     <>
-      {localState.editActive && (
+      {editActive && (
         <Edit
           setLocal={(v) => {
-            setState({ ...localState, ...v, ...{editActive: false} });
+            setState({ ...localState, ...v });
+            setEdit(false);
           }}
           item={localState}
         />
@@ -43,7 +50,7 @@ export default function TodoItem({ updateTodo, item }) {
             type='text'
             readOnly={true}
             onClick={() => {
-              setState({ ...localState, ...{ editActive: true } });
+              setEdit(true);
             }}
             value={localState.title}
           ></input>

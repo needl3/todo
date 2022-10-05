@@ -2,7 +2,7 @@ import {
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState, ReactDOM } from "react";
+import { useState} from "react";
 import EditStyled from "../wrappers/Edit";
 
 export default function Edit({ item, setLocal }) {
