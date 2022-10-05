@@ -1,9 +1,9 @@
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import TodoItem from "./TodoItem";
 import MainStyled from "../wrappers/Main";
-import { addCall, deleteCall } from "../shared/calls";
+import { addCall, deleteCall, getCall } from "../shared/calls";
 
 export default function Main({ accessToken }) {
   const [todos, updateTodos] = useState([]);
@@ -11,14 +11,23 @@ export default function Main({ accessToken }) {
     if (typeof v === "number" && v < 0) {
       let newTodo = [];
       newTodo = todos.filter((e) => {
-        if(e.id !== id) return true
-        else{
-          deleteCall(e, accessToken)
-        }
+        if (e.id !== id) return true;
+        deleteCall(e, accessToken);
+        return false;
       });
       updateTodos(newTodo);
     }
   };
+  useEffect(() => {
+    if (accessToken !== undefined) {
+      (async () => {
+        const res = await (await getCall(accessToken)).json();
+        updateTodos(res.todo.todo);
+      })();
+    } else {
+      updateTodos([]);
+    }
+  }, [accessToken]);
   return (
     <MainStyled>
       <div id='todo-container'>
@@ -45,7 +54,7 @@ export default function Main({ accessToken }) {
               description: "",
             };
             updateTodos([...todos, data]);
-            const res = await addCall(data, accessToken);
+            addCall(data, accessToken);
           }}
         >
           <FontAwesomeIcon icon={faPlusCircle} />

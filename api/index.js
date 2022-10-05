@@ -11,7 +11,7 @@ app = express();
 app.use(cors({ origin: ["http://localhost:3000"] }));
 
 app.use((req, res, next) => {
-  console.log("=>  " + req.address);
+  console.log("=>  " + req.url);
   next();
 });
 app.use(express.json());

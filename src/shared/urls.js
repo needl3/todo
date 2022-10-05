@@ -3,6 +3,7 @@ const urls = {
     login: "api/login/",
     register: "api/register/",
     user: "api/user/",
-    todo: "api/todo/"
+    todo: "api/todo/",
+    logout: "api/logout/"
 }
 export default urls

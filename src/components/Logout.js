@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import urls from "../shared/urls";
 import LogoutStyled from "../wrappers/Logout";
+import { logoutCall } from "../shared/calls";
 
-export default function Logout(props) {
+export default function Logout({ token, logout }) {
   const [userName, setName] = useState(undefined);
   useEffect(() => {
     fetch(urls.base + urls.user, {
       method: "GET",
       headers: {
-        authorization: `bearer ${props.token}`,
+        authorization: `bearer ${token}`,
       },
     })
       .then(async (e) => {
@@ -27,7 +28,14 @@ export default function Logout(props) {
         <p>
           Hello, <span>{userName}</span>
         </p>
-        <button onClick={props.logout}>Logout</button>
+        <button
+          onClick={async () => {
+            logoutCall(token);
+            logout();
+          }}
+        >
+          Logout
+        </button>
       </div>
     </LogoutStyled>
   );

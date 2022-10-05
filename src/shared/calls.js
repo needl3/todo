@@ -10,9 +10,9 @@ const updateCall = (item, token) => {
     },
     body: JSON.stringify(item),
   })
-    .then(async (e) => {
+    .then((e) => {
       if (e.status !== 200) throw e;
-      return await e.json();
+      return e;
     })
     .catch((e) => e);
 };
@@ -32,9 +32,9 @@ const deleteCall = (item, token) => {
     })
     .catch((e) => e);
 };
-const getCall = (token) => {
+const getCall = async (token) => {
   if (token === undefined) return -1;
-  fetch(urls.base + urls.todo, {
+  return await fetch(urls.base + urls.todo, {
     method: "GET",
     headers: {
       authorization: `bearer ${token}`,
@@ -45,7 +45,6 @@ const getCall = (token) => {
       if (e.status !== 200) throw e;
       return e;
     })
-    .catch((e) => e);
 };
 const addCall = (item, token) => {
   if (token === undefined) return -1;
@@ -63,4 +62,12 @@ const addCall = (item, token) => {
     })
     .catch((e) => e);
 };
-export { updateCall, getCall, deleteCall, addCall };
+const logoutCall= (token) => {
+  fetch(urls.base + urls.logout, {
+    method: "DELETE",
+    headers: {
+      authorization: `bearer ${token}`,
+    }
+  })
+}
+export { updateCall, getCall, deleteCall, addCall, logoutCall };
