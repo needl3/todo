@@ -5,37 +5,55 @@ import {
   faDumpster,
 } from "@fortawesome/free-solid-svg-icons";
 import TodoItemStyled from "../wrappers/TodoItem";
+import { useState } from "react";
+import Edit from "./Edit";
 
-export default function TodoItem(props) {
+export default function TodoItem({ updateTodo, item }) {
+  const [localState, setState] = useState({
+    ...item,
+    ...{ editActive: true},
+  });
   return (
-    <TodoItemStyled>
-      <div
-        id='todo-item'
-        className={props.item.checked ? "checked" : "not-checked"}
-      >
-        <button
-          id="check-button"
-          onClick={() => {
-            props.onChange(props.item.checked);
+    <>
+      {localState.editActive && (
+        <Edit
+          setLocal={(v) => {
+            setState({ ...localState, ...v, ...{editActive: false} });
           }}
+          item={localState}
+        />
+      )}
+      <TodoItemStyled>
+        <li
+          id='todo-item'
+          className={localState.checked ? "checked" : "not-checked"}
         >
-          <FontAwesomeIcon
-            icon={props.item.checked ? faCheckCircle : faCircleHalfStroke}
-          />
-        </button>
-        <input
-          id='title'
-          type='text'
-          onChange={(e) => props.onChange(e.target.value)}
-        >
-          {props.title}
-        </input>
-        <div id='edit'>
-          <button onClick={() => props.onChange(-1)}>
-            <FontAwesomeIcon icon={faDumpster} />
+          <button
+            id='check-button'
+            onClick={() => {
+              setState({ ...localState, checked: !localState.checked });
+            }}
+          >
+            <FontAwesomeIcon
+              icon={localState.checked ? faCheckCircle : faCircleHalfStroke}
+            />
           </button>
-        </div>
-      </div>
-    </TodoItemStyled>
+          <input
+            id='title'
+            type='text'
+            readOnly={true}
+            onClick={() => {
+              setState({ ...localState, ...{ editActive: true } });
+            }}
+            value={localState.title}
+          ></input>
+          <div id='edit'>
+            <button onClick={() => updateTodo(-1)}>
+              <FontAwesomeIcon icon={faDumpster} />
+            </button>
+          </div>
+        </li>
+      </TodoItemStyled>
+    </>
   );
 }
