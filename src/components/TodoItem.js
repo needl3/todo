@@ -11,7 +11,7 @@ import Edit from "./Edit";
 export default function TodoItem({ updateTodo, item }) {
   const [localState, setState] = useState({
     ...item,
-    ...{ editActive: true},
+    ...{ editActive: false},
   });
   return (
     <>

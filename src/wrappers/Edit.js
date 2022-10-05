@@ -21,7 +21,6 @@ const EditStyled = styled.div`
   input {
     text-align: center;
     font-size: 1rem;
-    text-transform: uppercase;
     font-weight: bold;
     color: #aaaaaa;
   }
@@ -31,6 +30,7 @@ const EditStyled = styled.div`
     width: 70%;
     background-color: inherit;
     border: 1px solid aquamarine;
+    text-transform: uppercase;
   }
   #description {
     padding: 1rem;

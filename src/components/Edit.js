@@ -2,7 +2,7 @@ import {
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState, ReactDOM } from "react";
 import EditStyled from "../wrappers/Edit";
 
 export default function Edit({ item, setLocal }) {
@@ -26,7 +26,7 @@ export default function Edit({ item, setLocal }) {
         />
         <input
           id='description'
-          type='text'
+          type='textarea'
           value={localItem.description}
           placeholder='Description'
           onChange={(e) => {
