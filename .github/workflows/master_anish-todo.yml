@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo apt-get install libcurl4 openssl liblzma5 gzip
           wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-amazon2-6.0.2.tgz -O mongo.tgz
-          gzip mongo.tgz
+          gzip -d mongo.tgz
           tar -xf mongo.tar
           cd mongodb-linux-x86_64-amazon2-6.0.2/bin/
           mv mongod /bin/mongod
