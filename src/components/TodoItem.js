@@ -17,6 +17,13 @@ export default function TodoItem({ updateTodo, item, token }) {
     if (editActive === undefined) setEdit(false);
     else {
       updateCall(localState, token);
+      let localStorageItem = JSON.parse(localStorage.getItem("todos"))
+      for(let i=0;i<localStorageItem.length;i++){
+        if(localState.id === localStorageItem[i].id){
+          localStorageItem[i] = localState;
+        }
+      }
+      localStorage.setItem("todos", JSON.stringify(localStorageItem))
     }
   }, [JSON.stringify(localState)]);
   return (

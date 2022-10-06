@@ -24,7 +24,7 @@ const deleteCall = (item, token) => {
       authorization: `bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(item),
+    body: JSON.stringify({id: item.id}),
   })
     .then((e) => {
       if (e.status !== 200) throw e;

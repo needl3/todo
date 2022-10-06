@@ -5,23 +5,27 @@ import Register from "./Register";
 import UserStyled from "../wrappers/User";
 import { modes } from "../shared/constants";
 import { userCall } from "../shared/calls";
-export default function User({setToken}) {
-  const [userData, setUserData] = useState({
-    status: "Not Logged In",
-    accessToken: undefined,
-    dialogMode: modes.DORMANT,
-    name: undefined,
-  });
+export default function User({ setToken }) {
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("userData")) || {
+      status: "Not Logged In",
+      accessToken: undefined,
+      dialogMode: modes.DORMANT,
+      name: undefined,
+    }
+  );
   const handleLogin = async (token) => {
     if (token !== undefined) {
       const user = await (await userCall(token)).json();
-      setUserData({
+      const newData = {
         status: "Logged In",
         accessToken: token,
         dialogMode: modes.DORMANT,
         name: user.data.name,
-      });
-      setToken(token)
+      }
+      setUserData(newData);
+      setToken(token);
+      localStorage.setItem("userData", JSON.stringify(newData));
     }
   };
   const toggleAuth = (newMode) => {
@@ -69,7 +73,7 @@ export default function User({setToken}) {
                   status: "Not Logged In",
                   accessToken: undefined,
                   dialogMode: modes.DORMANT,
-                  name: undefined
+                  name: undefined,
                 });
               }}
               userData={userData}

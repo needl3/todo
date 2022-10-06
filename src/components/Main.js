@@ -7,7 +7,7 @@ import { addCall, deleteCall, getCall } from "../shared/calls";
 
 export default function Main({ accessToken }) {
   const [todos, updateTodos] = useState([]);
-  const handleUpdate = (v, id) => {
+  const handleDelete = (v, id) => {
     if (typeof v === "number" && v < 0) {
       let newTodo = [];
       newTodo = todos.filter((e) => {
@@ -15,6 +15,7 @@ export default function Main({ accessToken }) {
         deleteCall(e, accessToken);
         return false;
       });
+      localStorage.setItem("todos", JSON.stringify(newTodo));
       updateTodos(newTodo);
     }
   };
@@ -23,9 +24,18 @@ export default function Main({ accessToken }) {
       (async () => {
         const res = await (await getCall(accessToken)).json();
         updateTodos(res.todo.todo);
+        localStorage.setItem("todos", JSON.stringify(res.todo.todo));
       })();
     } else {
-      updateTodos([]);
+      localStorage.removeItem("userData")
+      localStorage.removeItem("todos")
+      updateTodos([])
+      return
+      // Intentionally left below code as it is
+      let localStorageItem = localStorage.getItem("todos");
+      if (localStorageItem == undefined) {
+        updateTodos([]);
+      } else updateTodos(JSON.parse(localStorageItem));
     }
   }, [accessToken]);
   return (
@@ -38,7 +48,7 @@ export default function Main({ accessToken }) {
               <TodoItem
                 token={accessToken}
                 item={todo}
-                updateTodo={(v) => handleUpdate(v, todo.id)}
+                updateTodo={(v) => handleDelete(v, todo.id)}
                 key={todo.id}
               />
             );
@@ -53,7 +63,16 @@ export default function Main({ accessToken }) {
               checked: false,
               description: "",
             };
-            updateTodos([...todos, data]);
+            const newTodos = [...todos, data];
+            updateTodos(newTodos);
+            const localStorageItem = localStorage.getItem("todos");
+            if(localStorageItem == undefined){
+              localStorage.setItem("todos", JSON.stringify(new Array(data)))
+            }else{
+              const item = JSON.parse(localStorageItem)
+              item.push(data)
+              localStorage.setItem("todos", JSON.stringify(item))
+            }
             addCall(data, accessToken);
           }}
         >

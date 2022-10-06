@@ -8,13 +8,20 @@ require("./configs/Db").connect();
 
 app = express();
 
-app.use(cors({ origin: ["http://localhost:3000"] }));
+app.use(cors({ origin: process.env.ORIGINS.split(",") }));
 
 app.use((req, res, next) => {
   console.log("=>  " + req.url);
   next();
 });
 app.use(express.json());
+app.use(express.static(path.resolve(__dirname, "../build")));
+
+app.get("/", (req, res) => {
+  if (process.env.DEV == true)
+    return res.json({ message: "Sorry bro, no landing page in development" });
+  else res.sendFile(path.resolve(__dirname, "../build/index.html"));
+});
 
 app.use("/api", require("./api.js"));
 
