@@ -12,9 +12,7 @@ module.exports = sendForgotPasswordEmail = async (mail, token) => {
           <h1>TODO: Password Reset Request</h1>\
           <p>You recently requested to reset your forgotton password. If you don't\
           know about this then please delete this email.</p><br>\
-          <b><a href='http://${process.env.HOST}:${
-      process.env.PORT || 80
-    }/api/resetpassword?token=${token}'>\
+          <b><a href='http://${process.env.ORIGIN}/api/resetpassword?token=${token}'>\
           Click here to change your password</a></b>`, // html body
   });
 };
@@ -31,9 +29,7 @@ module.exports = sendVerifyMailEmail =(mail, token) => {
             <h1>TODO: Email Verification Request</h1>\
             <p>You recently requested to verify your email. If you don't\
             know about this then please delete this email.</p><br>\
-            <b><a href='http://${process.env.HOST}:${
-      process.env.PORT || 80
-    }/api/verifyMail?token=${token}'>\
+            <b><a href='http://${process.env.ORIGIN}/api/verifyMail?token=${token}'>\
             Click here to verify your email</a></b>`, // html body
   });
 };

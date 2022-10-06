@@ -25,6 +25,6 @@ app.get("/", (req, res) => {
 
 app.use("/api", require("./api.js"));
 
-server = app.listen(process.env.PORT, () => {
+server = app.listen(process.env.PORT || 80, () => {
   console.log("Listening on ", server.address().address, server.address().port);
 });
