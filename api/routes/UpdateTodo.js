@@ -10,7 +10,7 @@ module.exports = function UpdateTodo(req, res) {
     id: req.body.id,
   };
   //
-  // There is probably more effecient method to do this
+  // There is probably more efficient method to do this
   // By only sending changed field from front
   // Validating then updating only those
   //

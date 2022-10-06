@@ -4,21 +4,23 @@ import Logout from "./Logout";
 import Register from "./Register";
 import UserStyled from "../wrappers/User";
 import { modes } from "../shared/constants";
-
+import { userCall } from "../shared/calls";
 export default function User(props) {
   const [userData, setUserData] = useState({
     status: "Not Logged In",
     accessToken: undefined,
     dialogMode: modes.DORMANT,
+    name: undefined,
   });
-  const handleLogin = (token) => {
+  const handleLogin = async (token) => {
     if (token !== undefined) {
+      const user = await (await userCall(token)).json();
       setUserData({
         status: "Logged In",
         accessToken: token,
         dialogMode: modes.DORMANT,
+        name: user.data.name,
       });
-      props.setToken(token);
     }
   };
   const toggleAuth = (newMode) => {
@@ -60,15 +62,16 @@ export default function User(props) {
         {userData.dialogMode === modes.LOGOUT && (
           <div id='dialog'>
             <Logout
-              token={userData.accessToken}
               logout={() => {
                 props.setToken(undefined);
                 setUserData({
                   status: "Not Logged In",
                   accessToken: undefined,
                   dialogMode: modes.DORMANT,
+                  name: undefined
                 });
               }}
+              userData={userData}
             />
           </div>
         )}

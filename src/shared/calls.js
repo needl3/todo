@@ -70,4 +70,12 @@ const logoutCall= (token) => {
     }
   })
 }
-export { updateCall, getCall, deleteCall, addCall, logoutCall };
+const userCall = async (token) => {
+  return await fetch(urls.base+urls.user, {
+    method: "GET",
+    headers: {
+      authorization: `bearer ${token}`
+    }
+  })
+}
+export { updateCall, getCall, deleteCall, addCall, logoutCall, userCall };
