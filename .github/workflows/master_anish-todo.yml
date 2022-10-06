@@ -59,10 +59,10 @@ jobs:
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
           package: .
-      -name: Start MongoDB server
+          
+      - name: Start MongoDB server
         run: |
           mongod&
           disown
-        run: |
           cd api
           npm run start
