@@ -57,6 +57,11 @@ const EditStyled = styled.div`
     text-align: center;
     animation: process 1s infinite;
   }
+  #description{
+    text-align: center;
+    font-size: large;
+    color: inherit;
+  }
   @keyframes process {
     0% {
       color: white;

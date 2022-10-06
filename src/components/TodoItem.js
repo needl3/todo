@@ -13,7 +13,7 @@ export default function TodoItem({ updateTodo, item, token }) {
   const [localState, setState] = useState(item);
   const [editActive, setEdit] = useState(undefined);
   useEffect(() => {
-    // This is clause executes only once at first to ignore firing of effect for the first time
+    // This if clause executes only once at first to ignore firing of effect for the first time
     if (editActive === undefined) setEdit(false);
     else {
       updateCall(localState, token);

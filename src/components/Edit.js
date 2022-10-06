@@ -24,9 +24,8 @@ export default function Edit({ item, setLocal }) {
             setItem({ ...localItem, ...{ title: e.target.value } });
           }}
         />
-        <input
+        <textarea
           id='description'
-          type='textarea'
           value={localItem.description}
           placeholder='Description'
           onChange={(e) => {
