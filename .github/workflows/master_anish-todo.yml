@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - anish-todo
 
 on:
@@ -20,6 +17,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
+      - name: Install mongod
+        run: |
+          sudo apt-get install libcurl4 openssl liblzma5 gzip
+          wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-amazon2-6.0.2.tgz -O mongo.tgz
+          gzip mongo.tgz
+          tar -xf mongo.tar
+          cd mongodb-linux-x86_64-amazon2-6.0.2/bin/
+          mv mongod /bin/mongod
 
       - name: npm install, build, and test
         run: |
@@ -37,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -51,6 +56,13 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'anish-todo'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3721717A52EA445EA893986CDFA4A9AE }}
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
           package: .
+      -name: Start MongoDB server
+        run: |
+          mongod&
+          disown
+        run: |
+          cd api
+          npm run start
