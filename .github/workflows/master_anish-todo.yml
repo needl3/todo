@@ -24,7 +24,7 @@ jobs:
           gzip -d mongo.tgz
           tar -xf mongo.tar
           cd mongodb-linux-x86_64-amazon2-6.0.2/bin/
-          mv mongod /bin/mongod
+          sudo mv mongod /bin/mongod
 
       - name: npm install, build, and test
         run: |
