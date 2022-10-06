@@ -26,10 +26,15 @@ jobs:
           cd mongodb-linux-x86_64-amazon2-6.0.2/bin/
           sudo mv mongod /bin/mongod
 
-      - name: npm install, build, and test
+      - name: npm install, build, and test for the front
         run: |
           npm install
           CI='' npm run build --if-present
+
+      - name: npm install for api
+        run: |
+          cd api
+          npm install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
