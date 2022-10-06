@@ -75,6 +75,8 @@ export default function User({ setToken }) {
                   dialogMode: modes.DORMANT,
                   name: undefined,
                 });
+                localStorage.removeItem("todos")
+                localStorage.removeItem("userData")
               }}
               userData={userData}
             />

@@ -4,9 +4,9 @@ import User from "./components/User";
 import { useState } from "react";
 export default function App() {
   const [accessToken, setLoginStat] = useState(
-    localStorage.getItem("accessToken") == null
+    localStorage.getItem("userData") == null
       ? undefined
-      : localStorage.getItem("accessToken")
+      : JSON.parse(localStorage.getItem("userData")).accessToken
   );
   return (
     <>

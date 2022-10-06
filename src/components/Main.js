@@ -27,15 +27,10 @@ export default function Main({ accessToken }) {
         localStorage.setItem("todos", JSON.stringify(res.todo.todo));
       })();
     } else {
-      localStorage.removeItem("userData")
-      localStorage.removeItem("todos")
-      updateTodos([])
-      return
-      // Intentionally left below code as it is
       let localStorageItem = localStorage.getItem("todos");
-      if (localStorageItem == undefined) {
-        updateTodos([]);
-      } else updateTodos(JSON.parse(localStorageItem));
+      if (localStorageItem != undefined) 
+        updateTodos(JSON.parse(localStorageItem));
+      else  updateTodos([])
     }
   }, [accessToken]);
   return (
