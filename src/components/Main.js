@@ -48,7 +48,7 @@ export default function Main({ accessToken }) {
           id='add-todo'
           onClick={async () => {
             const data = {
-              id: (todos.length && todos[todos.length - 1].id + 1) || 0,
+              id: Date.now(),
               title: "",
               checked: false,
               description: "",
