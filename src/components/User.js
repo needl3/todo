@@ -5,7 +5,7 @@ import Register from "./Register";
 import UserStyled from "../wrappers/User";
 import { modes } from "../shared/constants";
 import { userCall } from "../shared/calls";
-export default function User(props) {
+export default function User({setToken}) {
   const [userData, setUserData] = useState({
     status: "Not Logged In",
     accessToken: undefined,
@@ -21,6 +21,7 @@ export default function User(props) {
         dialogMode: modes.DORMANT,
         name: user.data.name,
       });
+      setToken(token)
     }
   };
   const toggleAuth = (newMode) => {
@@ -63,7 +64,7 @@ export default function User(props) {
           <div id='dialog'>
             <Logout
               logout={() => {
-                props.setToken(undefined);
+                setToken(undefined);
                 setUserData({
                   status: "Not Logged In",
                   accessToken: undefined,
