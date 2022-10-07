@@ -3,7 +3,7 @@ name: Create and deploy to Azure Container Instance
 on:
   push:
     branches:
-      - devops-app-service
+      - master
 
 jobs:
   build:
